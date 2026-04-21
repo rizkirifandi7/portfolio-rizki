@@ -648,7 +648,7 @@ export default function Home() {
                   },
                   {
                     index: "02",
-                    title: "Website Market Monitoring ARBA",
+                    title: "Market Monitoring System ARBA",
                     description:
                       "ARBA Market Monitoring is a comprehensive web application designed to track, analyze, and report on market price data. It provides users with real-time insights into market trends, price fluctuations, and historical data, enabling informed decision-making for businesses and stakeholders.",
                     tech: ["Next.js", "TailwindCSS", "NestJS", "PostgreSQL"],
@@ -670,6 +670,28 @@ export default function Home() {
                   },
                   {
                     index: "04",
+                    title: "HR Internal Website",
+                    description:
+                      "Website internal HR is a web application designed to manage human resource data and information. It provides users with tools to track, analyze, and report on human resource data, enabling informed decision-making for businesses and stakeholders.",
+                    tech: ["Next.js", "TailwindCSS", "NestJS", "PostgreSQL"],
+                    image: "/project-hr-internal.png",
+                    github: "#",
+                    live: "https://hr2.urbansolv.co.id",
+                    featured: true,
+                  },
+                  {
+                    index: "05",
+                    title: "Misoa",
+                    description:
+                      "Website company profile with blog feature and responsive design.",
+                    tech: ["Next.js", "TailwindCSS"],
+                    image: "/project-misoa.png",
+                    github: "#",
+                    live: "https://misoa.kulidigital.id/",
+                    featured: true,
+                  },
+                  {
+                    index: "06",
                     title: "Bakso Dono Reborn",
                     description:
                       "SEO-optimized company website with a headless CMS empowering marketing teams to manage content effortlessly.",
@@ -687,7 +709,7 @@ export default function Home() {
                     featured: false,
                   },
                   {
-                    index: "05",
+                    index: "07",
                     title: "Dmiehan Website",
                     description:
                       "SEO-optimized company website with a headless CMS empowering marketing teams to manage content effortlessly.",
@@ -704,7 +726,7 @@ export default function Home() {
                     featured: false,
                   },
                   {
-                    index: "06",
+                    index: "08",
                     title: "Shipping Project Management",
                     description:
                       "Real-time job tracking for trucking companies with automated email notifications, document attachments, and role-based access control.",
@@ -721,7 +743,7 @@ export default function Home() {
                     featured: false,
                   },
                   {
-                    index: "07",
+                    index: "09",
                     title: "Plant Monitoring System",
                     description:
                       "Monitoring platform for plant status with automated information via Push Notification.",
