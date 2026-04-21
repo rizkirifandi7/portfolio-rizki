@@ -651,7 +651,7 @@ export default function Home() {
                     title: "Website Market Monitoring ARBA",
                     description:
                       "ARBA Market Monitoring is a comprehensive web application designed to track, analyze, and report on market price data. It provides users with real-time insights into market trends, price fluctuations, and historical data, enabling informed decision-making for businesses and stakeholders.",
-                    tech: ["Next.js", "TailwindCSS"],
+                    tech: ["Next.js", "TailwindCSS", "NestJS", "PostgreSQL"],
                     image: "/project-market-monitoring.png",
                     github: "#",
                     live: "https://arbas.urbansolv.co.id/login",
