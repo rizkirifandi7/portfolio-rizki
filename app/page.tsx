@@ -124,6 +124,14 @@ const NAV_ITEMS = [
   { id: "contact", label: "Contact", icon: "Mail" },
 ] as const;
 
+const ICON_MAP: Record<string, React.ElementType> = {
+  User,
+  Code2,
+  BriefcaseBusiness,
+  Layers,
+  Mail,
+};
+
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string>("about");
 
@@ -160,11 +168,28 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto min-h-screen pt-18">
-      <div className="relative flex justify-between items-start gap-4">
-        {/* SIDEBAR */}
+    <div className="max-w-7xl mx-auto min-h-screen pt-4 md:pt-18 pb-20 md:pb-0">
+      <div className="relative flex flex-col md:flex-row justify-between items-start gap-4">
+        {/* MOBILE HEADER */}
+        <div className="flex md:hidden items-center justify-between w-full px-4 py-3 border-b bg-background/80 backdrop-blur-sm sticky top-0 z-40">
+          <div className="flex items-center gap-2">
+            <Avatar className="w-8 h-8">
+              <AvatarImage src="/profile.png" />
+              <AvatarFallback>RR</AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="text-sm font-semibold leading-none">Rizki Rifani</p>
+              <p className="text-[10px] text-muted-foreground">Fullstack Developer</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <ModeToggle />
+          </div>
+        </div>
+
+        {/* SIDEBAR (hidden on mobile) */}
         <motion.aside
-          className="sticky top-18 flex flex-col gap-4 w-[256px] h-full overflow-y-auto"
+          className="hidden md:flex sticky top-18 flex-col gap-4 w-[256px] h-full overflow-y-auto"
           variants={fadeLeft}
           initial="hidden"
           animate="visible"
@@ -224,14 +249,7 @@ export default function Home() {
             <nav className="flex flex-col gap-2">
               {NAV_ITEMS.map((item) => {
                 const isActive = activeSection === item.id;
-                const IconMap: Record<string, React.ElementType> = {
-                  User,
-                  Code2,
-                  BriefcaseBusiness,
-                  Layers,
-                  Mail,
-                };
-                const Icon = IconMap[item.icon];
+                const Icon = ICON_MAP[item.icon];
                 return (
                   <Link key={item.id} href={`#${item.id}`}>
                     <li
@@ -262,14 +280,14 @@ export default function Home() {
         </motion.aside>
 
         {/* MAIN CONTENT */}
-        <div className="flex-1 h-full flex flex-col gap-6 overflow-y-auto pb-8">
+        <div className="flex-1 w-full h-full flex flex-col gap-6 overflow-y-auto px-4 md:px-0 pb-8">
           {/* ── ABOUT SECTION ── */}
           <InView variants={fadeUp} custom={0.15}>
             <section
               id="about"
-              className="border rounded-lg overflow-hidden scroll-mt-24"
+              className="border rounded-lg overflow-hidden scroll-mt-20 md:scroll-mt-24"
             >
-              <div className="bg-gradient-to-br from-muted/60 via-muted/20 to-background px-6 pt-6 pb-7 border-b">
+              <div className="bg-gradient-to-br from-muted/60 via-muted/20 to-background px-4 md:px-6 pt-5 md:pt-6 pb-6 md:pb-7 border-b">
                 <div className="flex items-center gap-2 mb-4">
                   <User className="h-3.5 w-3.5 text-muted-foreground" />
                   <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-[0.2em]">
@@ -278,7 +296,7 @@ export default function Home() {
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 items-start">
                   <div>
-                    <h2 className="text-3xl font-bold tracking-tight leading-tight mb-3">
+                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight leading-tight mb-3">
                       Building the web,
                       <br />
                       <span className="text-muted-foreground font-normal">
@@ -299,7 +317,7 @@ export default function Home() {
                       open-source projects or enjoying a good cup of coffee ☕.
                     </p>
 
-                    <div className="flex flex-wrap items-center gap-2.5 mt-5">
+                    <div className="flex flex-wrap items-center gap-2 mt-4 md:mt-5">
                       <Link
                         href="https://drive.google.com/file/d/1u84nbzhMlFCuX2akNiuwm2nAArgn33sn/view?usp=sharing"
                         className="inline-flex items-center gap-2 rounded-md bg-foreground text-background px-4 py-2 text-sm font-semibold hover:opacity-80 transition-opacity"
@@ -354,7 +372,7 @@ export default function Home() {
 
           {/* ── SKILLS SECTION ── */}
           <InView variants={fadeUp}>
-            <section id="skills" className="border rounded-lg p-6 scroll-mt-24">
+            <section id="skills" className="border rounded-lg p-4 md:p-6 scroll-mt-20 md:scroll-mt-24">
               <div className="flex items-center gap-2 mb-1">
                 <Code2 className="h-3.5 w-3.5 text-muted-foreground" />
                 <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-[0.2em]">
@@ -368,7 +386,7 @@ export default function Home() {
                 Technologies and tools I work with on a daily basis.
               </p>
               <Separator className="mb-6" />
-              <InViewStagger className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <InViewStagger className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                 {[
                   {
                     category: "Frontend",
@@ -467,7 +485,7 @@ export default function Home() {
           <InView variants={fadeUp}>
             <section
               id="experience"
-              className="border rounded-lg p-6 scroll-mt-24"
+              className="border rounded-lg p-4 md:p-6 scroll-mt-20 md:scroll-mt-24"
             >
               <div className="flex items-center gap-2 mb-1">
                 <BriefcaseBusiness className="h-3.5 w-3.5 text-muted-foreground" />
@@ -482,7 +500,7 @@ export default function Home() {
                 My professional journey and academic background.
               </p>
               <Separator className="mb-6" />
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                 {/* Experience timeline */}
                 <div>
                   <div className="flex items-center gap-2 mb-5">
@@ -601,7 +619,7 @@ export default function Home() {
           <InView variants={fadeUp}>
             <section
               id="projects"
-              className="border rounded-lg p-6 scroll-mt-24"
+              className="border rounded-lg p-4 md:p-6 scroll-mt-20 md:scroll-mt-24"
             >
               {/* Header */}
               <div className="flex items-start justify-between mb-6">
@@ -627,7 +645,7 @@ export default function Home() {
               </div>
               <Separator className="mb-6" />
 
-              <InViewStagger className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <InViewStagger className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
                   {
                     index: "01",
@@ -830,7 +848,7 @@ export default function Home() {
           <InView variants={fadeUp}>
             <section
               id="contact"
-              className="border rounded-lg p-6 scroll-mt-24"
+              className="border rounded-lg p-4 md:p-6 scroll-mt-20 md:scroll-mt-24"
             >
               {/* Header */}
               <div className="flex items-center gap-2 mb-1">
@@ -848,7 +866,7 @@ export default function Home() {
               </p>
               <Separator className="mb-6" />
 
-              <InViewStagger className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-8">
+              <InViewStagger className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-6 md:gap-8">
                 {/* Left — Contact Info */}
                 <motion.div variants={staggerItem} className="space-y-4">
                   {[
@@ -907,7 +925,7 @@ export default function Home() {
                 >
                   <p className="text-sm font-semibold mb-4">Send a Message</p>
                   <form className="space-y-4">
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-3">
                       <div className="space-y-1.5">
                         <label
                           htmlFor="contact-name"
@@ -979,6 +997,33 @@ export default function Home() {
           </InView>
         </div>
       </div>
+
+      {/* MOBILE BOTTOM NAVIGATION */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden border-t bg-background/90 backdrop-blur-md">
+        <div className="flex items-center justify-around px-2 py-2">
+          {NAV_ITEMS.map((item) => {
+            const isActive = activeSection === item.id;
+            const Icon = ICON_MAP[item.icon];
+            return (
+              <Link
+                key={item.id}
+                href={`#${item.id}`}
+                className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg transition-all duration-200 ${
+                  isActive
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <Icon className={`h-5 w-5 transition-transform duration-200 ${isActive ? "scale-110" : ""}`} />
+                <span className="text-[10px] font-medium">{item.label}</span>
+                {isActive && (
+                  <span className="absolute bottom-1 w-1 h-1 rounded-full bg-foreground" />
+                )}
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
     </div>
   );
 }
