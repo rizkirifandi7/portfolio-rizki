@@ -1,11 +1,13 @@
+"use client";
+
 import { ModeToggle } from "@/components/common/Button/ModeToggle";
+import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import {
   ArrowUpRight,
   BriefcaseBusiness,
   Code2,
-  Facebook,
   Github,
   GraduationCap,
   House,
@@ -19,13 +21,83 @@ import {
   User,
 } from "lucide-react";
 import Link from "next/link";
+import { motion, useInView, Variants } from "framer-motion";
+import { useRef, ReactNode } from "react";
+
+// ── Animation helpers ──────────────────────────────────────────
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 32 },
+  visible: (d: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: d },
+  }),
+};
+
+const fadeLeft: Variants = {
+  hidden: { opacity: 0, x: -32 },
+  visible: (d: number = 0) => ({
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: d },
+  }),
+};
+
+const scaleIn: Variants = {
+  hidden: { opacity: 0, scale: 0.93 },
+  visible: (d: number = 0) => ({
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94], delay: d },
+  }),
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
+};
+
+const staggerItem: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] } },
+};
+
+function InView({ children, className, variants = fadeUp, custom = 0 }: {
+  children: ReactNode; className?: string; variants?: Variants; custom?: number;
+}) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div ref={ref} variants={variants} initial="hidden"
+      animate={inView ? "visible" : "hidden"} custom={custom} className={className}>
+      {children}
+    </motion.div>
+  );
+}
+
+function InViewStagger({ children, className }: { children: ReactNode; className?: string }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div ref={ref} variants={staggerContainer} initial="hidden"
+      animate={inView ? "visible" : "hidden"} className={className}>
+      {children}
+    </motion.div>
+  );
+}
 
 export default function Home() {
   return (
     <div className="max-w-7xl mx-auto min-h-screen pt-18">
       <div className="relative flex justify-between items-start gap-4">
         {/* SIDEBAR */}
-        <aside className="sticky top-18 flex flex-col gap-4 w-[256px] h-full overflow-y-auto">
+        <motion.aside
+          className="sticky top-18 flex flex-col gap-4 w-[256px] h-full overflow-y-auto"
+          variants={fadeLeft}
+          initial="hidden"
+          animate="visible"
+          custom={0}
+        >
           <div className="flex items-center gap-2 border rounded-lg p-3">
             <Avatar className="w-16 h-16">
               <AvatarImage src="/profile.png" />
@@ -41,7 +113,7 @@ export default function Home() {
 
           <div className="flex items-center gap-2">
             <Link
-              href="https://instagram.com"
+              href="https://www.instagram.com/rizki.rifandii/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1"
@@ -51,7 +123,7 @@ export default function Home() {
               </div>
             </Link>
             <Link
-              href="https://github.com"
+              href="https://github.com/rizkirifandi7"
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1"
@@ -61,23 +133,13 @@ export default function Home() {
               </div>
             </Link>
             <Link
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/rizkirifani/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1"
             >
               <div className="border rounded-md p-2 w-full text-sm font-medium inline-flex items-center justify-center hover:bg-muted transition-colors">
                 <Linkedin className="h-4 w-4" />
-              </div>
-            </Link>
-            <Link
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1"
-            >
-              <div className="border rounded-md p-2 w-full text-sm font-medium inline-flex items-center justify-center hover:bg-muted transition-colors">
-                <Facebook className="h-4 w-4" />
               </div>
             </Link>
           </div>
@@ -133,11 +195,12 @@ export default function Home() {
             </div>
             <ModeToggle />
           </div>
-        </aside>
+        </motion.aside>
 
         {/* MAIN CONTENT */}
         <div className="flex-1 h-full flex flex-col gap-6 overflow-y-auto pb-8">
           {/* ── ABOUT SECTION ── */}
+          <InView variants={fadeUp} custom={0.15}>
           <section
             id="about"
             className="border rounded-lg overflow-hidden scroll-mt-24"
@@ -169,17 +232,16 @@ export default function Home() {
                   </p>
                   <p className="text-sm text-muted-foreground leading-relaxed max-w-xl mt-3">
                     When I&apos;m not coding, you&apos;ll find me exploring
-                    open-source projects, writing tech content, or enjoying a
-                    good cup of coffee ☕.
+                    open-source projects or enjoying a good cup of coffee ☕.
                   </p>
 
                   <div className="flex flex-wrap items-center gap-2.5 mt-5">
                     <Link
-                      href="#projects"
+                      href="https://drive.google.com/file/d/1u84nbzhMlFCuX2akNiuwm2nAArgn33sn/view?usp=sharing"
                       className="inline-flex items-center gap-2 rounded-md bg-foreground text-background px-4 py-2 text-sm font-semibold hover:opacity-80 transition-opacity"
                     >
                       <BriefcaseBusiness className="h-3.5 w-3.5" />
-                      View Projects
+                      Download Resume
                     </Link>
                     <Link
                       href="#contact"
@@ -189,7 +251,7 @@ export default function Home() {
                       Contact Me
                     </Link>
                     <Link
-                      href="https://github.com"
+                      href="https://github.com/rizkirifandi7"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium hover:bg-muted transition-colors"
@@ -223,23 +285,11 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-3 divide-x">
-              {[
-                { value: "3+", label: "Years Exp." },
-                { value: "20+", label: "Projects" },
-                { value: "10+", label: "Tech Stack" },
-              ].map((s) => (
-                <div key={s.label} className="px-5 py-4 text-center">
-                  <p className="text-xl font-bold">{s.value}</p>
-                  <p className="text-[10px] text-muted-foreground mt-0.5 uppercase tracking-wide">
-                    {s.label}
-                  </p>
-                </div>
-              ))}
-            </div>
           </section>
+          </InView>
 
           {/* ── SKILLS SECTION ── */}
+          <InView variants={fadeUp}>
           <section id="skills" className="border rounded-lg p-6 scroll-mt-24">
             <div className="flex items-center gap-2 mb-1">
               <Code2 className="h-3.5 w-3.5 text-muted-foreground" />
@@ -254,7 +304,7 @@ export default function Home() {
               Technologies and tools I work with on a daily basis.
             </p>
             <Separator className="mb-6" />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <InViewStagger className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 {
                   category: "Frontend",
@@ -266,6 +316,9 @@ export default function Home() {
                     "TailwindCSS",
                     "Framer Motion",
                     "HTML & CSS",
+                    "Javascript",
+                    "Vue.js",
+                    "Svelte",
                   ],
                 },
                 {
@@ -278,6 +331,8 @@ export default function Home() {
                     "Prisma",
                     "REST API",
                     "MySQL",
+                    "Sequelize",
+                    "Fastify",
                   ],
                 },
                 {
@@ -287,14 +342,19 @@ export default function Home() {
                     "Git & GitHub",
                     "Docker",
                     "Figma",
-                    "Linux",
                     "Vercel",
                     "Postman",
+                    "OpenLayers",
+                    "Cesium",
+                    "Mapbox",
+                    "Leaflet",
+                    "Three.js",
                   ],
                 },
               ].map((group) => (
-                <div
+                <motion.div
                   key={group.category}
+                  variants={staggerItem}
                   className="border rounded-lg p-4 bg-muted/10"
                 >
                   <div className="flex items-center gap-2 mb-4">
@@ -313,9 +373,9 @@ export default function Home() {
                       </span>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </InViewStagger>
             <div className="mt-4 border rounded-lg p-4 bg-muted/10">
               <p className="text-xs text-muted-foreground mb-3 font-medium">
                 Interests
@@ -337,8 +397,10 @@ export default function Home() {
               </div>
             </div>
           </section>
+          </InView>
 
           {/* ── EXPERIENCE SECTION ── */}
+          <InView variants={fadeUp}>
           <section
             id="experience"
             className="border rounded-lg p-6 scroll-mt-24"
@@ -365,13 +427,25 @@ export default function Home() {
                     Work Experience
                   </h3>
                 </div>
-                <div className="relative pl-5 border-l border-border space-y-6">
+                <InViewStagger className="relative pl-5 border-l border-border space-y-6">
                   {[
                     {
                       role: "Frontend Developer",
-                      company: "PT Contoh Digital",
-                      period: "2024 – Present",
+                      company: "PT Multimedia Solusi Prima",
+                      period: "Dec 2025 – Jun 2026",
                       desc: "Led UI development for internal dashboards using Next.js and TypeScript. Collaborated with backend team to design REST API contracts.",
+                    },
+                    {
+                      role: "Internship - Software Developer ",
+                      company: "TELKOM Indonesia",
+                      period: "Aug 2024  - Oct 2024 ",
+                      desc: "Participated in the development of a monitoring system used within PT Telkom Indonesia, ensuring infrastructure performance and reliability.",
+                    },
+                    {
+                      role: "Internship - Frontend Developer",
+                      company: "PT Len Industri (Persero)",
+                      period: "Feb 2024 - Jun 2024",
+                      desc: "Built a new internal dashboard for monitoring projects across the company. Contributed to designing new UI components and integrated with various APIs to display real-time project data.",
                     },
                     {
                       role: "Freelance Web Developer",
@@ -379,15 +453,9 @@ export default function Home() {
                       period: "2022 – Present",
                       desc: "Delivered 15+ projects ranging from landing pages to full e-commerce platforms. Handled everything from design to deployment.",
                     },
-                    {
-                      role: "Junior Web Developer",
-                      company: "Startup Contoh",
-                      period: "2021 – 2022",
-                      desc: "Built and maintained front-end features for a SaaS product using React and Bootstrap.",
-                    },
                   ].map((exp) => (
-                    <div key={exp.role} className="relative">
-                      <div className="absolute -left-[1.38rem] top-1.5 w-2.5 h-2.5 rounded-full border-2 border-border bg-background" />
+                    <motion.div key={exp.role} variants={staggerItem} className="relative">
+                      <div className="absolute -left-[1.55rem] top-1.5 w-2.5 h-2.5 rounded-full border-2 border-border bg-background" />
                       <div className="flex items-start justify-between gap-2 mb-1">
                         <div>
                           <p className="text-sm font-semibold leading-snug">
@@ -404,9 +472,9 @@ export default function Home() {
                       <p className="text-xs text-muted-foreground leading-relaxed">
                         {exp.desc}
                       </p>
-                    </div>
+                    </motion.div>
                   ))}
-                </div>
+                </InViewStagger>
               </div>
               {/* Education */}
               <div>
@@ -416,23 +484,23 @@ export default function Home() {
                     Education
                   </h3>
                 </div>
-                <div className="relative pl-5 border-l border-border space-y-6">
+                <InViewStagger className="relative pl-5 border-l border-border space-y-6">
                   {[
                     {
                       degree: "Bachelor of Computer Science",
-                      school: "Universitas Contoh",
-                      period: "2018 – 2022",
-                      desc: "Focused on software engineering, algorithms, and database systems. Active in the developer community club.",
+                      school: "Universitas Komputer Indonesia",
+                      period: "2021 – 2025",
+                      desc: "Major in Computer Science and Information Technology, focused on software engineering, algorithms, and database systems. Active in the developer community club.",
                     },
                     {
-                      degree: "Web Development Bootcamp",
-                      school: "Online — Dicoding / Udemy",
-                      period: "2020 – 2021",
+                      degree: "Full-stack Web Development Bootcamp",
+                      school: "Online — Rakamin Academy",
+                      period: "2023",
                       desc: "Completed full-stack JavaScript curriculum covering React, Node.js, and deployment.",
                     },
                   ].map((edu) => (
-                    <div key={edu.degree} className="relative">
-                      <div className="absolute -left-[1.38rem] top-1.5 w-2.5 h-2.5 rounded-full border-2 border-border bg-background" />
+                    <motion.div key={edu.degree} variants={staggerItem} className="relative">
+                      <div className="absolute -left-[1.55rem] top-1.5 w-2.5 h-2.5 rounded-full border-2 border-border bg-background" />
                       <div className="flex items-start justify-between gap-2 mb-1">
                         <div>
                           <p className="text-sm font-semibold leading-snug">
@@ -449,14 +517,16 @@ export default function Home() {
                       <p className="text-xs text-muted-foreground leading-relaxed">
                         {edu.desc}
                       </p>
-                    </div>
+                    </motion.div>
                   ))}
-                </div>
+                </InViewStagger>
               </div>
             </div>
           </section>
+          </InView>
 
           {/* PROJECTS SECTION */}
+          <InView variants={fadeUp}>
           <section id="projects" className="border rounded-lg p-6 scroll-mt-24">
             {/* Header */}
             <div className="flex items-start justify-between mb-6">
@@ -472,7 +542,7 @@ export default function Home() {
                 </h2>
               </div>
               <Link
-                href="https://github.com"
+                href="https://github.com/rizkirifandi7"
                 target="_blank"
                 className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground border rounded-md px-3 py-1.5 hover:bg-muted/50 transition-colors"
               >
@@ -482,100 +552,162 @@ export default function Home() {
             </div>
             <Separator className="mb-6" />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <InViewStagger className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
                 {
                   index: "01",
-                  title: "E-Commerce Dashboard",
+                  title: "PUSAMADA Indonesia",
                   description:
-                    "Analytics dashboard with role-based access, real-time sales reports, and full inventory management system.",
-                  tech: ["Next.js", "PostgreSQL", "TailwindCSS", "Prisma"],
-                  github: "#",
-                  live: "#",
+                    "Organization profile with full CRUD management, photo galleries, and embedded video showcases.",
+                  tech: [
+                    "Next.js",
+                    "PostgreSQL",
+                    "TailwindCSS",
+                    "Prisma",
+                    "Express",
+                  ],
+                  image: "/project-pusamada.png",
+                  github: "https://github.com/rizkirifandi7/web-silat-v2",
+                  live: "https://www.pusamadaind.com/",
                   featured: true,
                 },
                 {
                   index: "02",
-                  title: "Company Profile CMS",
+                  title: "Bakso Dono Reborn",
                   description:
                     "SEO-optimized company website with a headless CMS empowering marketing teams to manage content effortlessly.",
-                  tech: ["React", "Node.js", "Express", "MongoDB"],
-                  github: "#",
-                  live: "#",
+                  tech: [
+                    "Next.js",
+                    "PostgreSQL",
+                    "TailwindCSS",
+                    "Prisma",
+                    "Express",
+                  ],
+                  image: "/project-bakso-dono.png",
+                  github: "https://github.com/rizkirifandi7/bdr-website-fe-v2",
+                  live: "https://bdr-website-fe-v2-rizkirifandi7s-projects.vercel.app/",
                   featured: false,
                 },
                 {
                   index: "03",
-                  title: "Task Management App",
+                  title: "Dmiehan Website",
                   description:
-                    "Collaborative tool with real-time updates, drag-and-drop Kanban boards, and multi-workspace support.",
-                  tech: ["Vue.js", "Firebase", "TailwindCSS"],
-                  github: "#",
-                  live: "#",
+                    "SEO-optimized company website with a headless CMS empowering marketing teams to manage content effortlessly.",
+                  tech: [
+                    "Next.js",
+                    "PostgreSQL",
+                    "TailwindCSS",
+                    "Prisma",
+                    "Express",
+                  ],
+                  image: "/project-dmiehan.png",
+                  github: "https://github.com/rizkirifandi7/demiehan-fe",
+                  live: "https://web-mie-fe-rizkirifandi7s-projects.vercel.app/",
                   featured: false,
                 },
                 {
                   index: "04",
-                  title: "Portfolio Template",
+                  title: "Shipping Project Management",
                   description:
-                    "Minimalist developer portfolio with dark mode, smooth animations, and fully responsive design system.",
-                  tech: ["Next.js", "TypeScript", "Framer Motion"],
-                  github: "#",
+                    "Real-time job tracking for trucking companies with automated email notifications, document attachments, and role-based access control.",
+                  tech: [
+                    "Next.js",
+                    "PostgreSQL",
+                    "TailwindCSS",
+                    "Prisma",
+                    "Express",
+                  ],
+                  image: "/project-shipping.png",
+                  github: "https://github.com/rizkirifandi7/fe-shipping",
                   live: "#",
                   featured: false,
                 },
+                {
+                  index: "05",
+                  title: "Plant Monitoring System",
+                  description:
+                    "Monitoring platform for plant status with automated information via Push Notification.",
+                  tech: ["Next.js", "TailwindCSS", "Firebase", "Socket.io"],
+                  image: "/project-plant-monitoring.png",
+                  github:
+                    "https://github.com/rizkirifandi7/web-deteksi-monitoring",
+                  live: "https://web-deteksi-monitoring.vercel.app/login",
+                  featured: false,
+                },
               ].map((project) => (
-                <div
+                <motion.div
                   key={project.index}
-                  className="group relative border rounded-lg p-5 flex flex-col hover:border-foreground/30 transition-all duration-200 hover:shadow-sm"
+                  variants={staggerItem}
+                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                  className="group relative border rounded-lg overflow-hidden flex flex-col hover:border-foreground/30 transition-all duration-200 hover:shadow-md"
                 >
-                  {project.featured && (
-                    <div className="absolute top-3 right-3 flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full border bg-muted/50">
-                      <Sparkles className="h-2.5 w-2.5" />
-                      Featured
+                  {/* Project Image */}
+                  <div className="relative w-full h-44 overflow-hidden bg-muted/30">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+                    {project.featured && (
+                      <div className="absolute top-2.5 right-2.5 flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full border bg-background/80 backdrop-blur-sm">
+                        <Sparkles className="h-2.5 w-2.5" />
+                        Featured
+                      </div>
+                    )}
+                    <span className="absolute bottom-2.5 left-3 text-[11px] font-mono text-white/60">
+                      {project.index}
+                    </span>
+                  </div>
+
+                  {/* Card Content */}
+                  <div className="p-5 flex flex-col flex-1">
+                    <h3 className="font-semibold text-base mb-2 leading-snug">
+                      {project.title}
+                    </h3>
+                    <p className="text-xs text-muted-foreground flex-1 mb-4 leading-relaxed">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {project.tech.map((t) => (
+                        <span
+                          key={t}
+                          className="text-[10px] px-2 py-0.5 rounded-md border bg-muted/30 font-medium"
+                        >
+                          {t}
+                        </span>
+                      ))}
                     </div>
-                  )}
-                  <span className="text-[11px] font-mono text-muted-foreground/50 mb-2">
-                    {project.index}
-                  </span>
-                  <h3 className="font-semibold text-base mb-2 leading-snug">
-                    {project.title}
-                  </h3>
-                  <p className="text-xs text-muted-foreground flex-1 mb-4 leading-relaxed">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {project.tech.map((t) => (
-                      <span
-                        key={t}
-                        className="text-[10px] px-2 py-0.5 rounded-md border bg-muted/30 font-medium"
+                    <div className="flex items-center gap-3 pt-3 border-t">
+                      <Link
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
                       >
-                        {t}
-                      </span>
-                    ))}
+                        <Github className="h-3.5 w-3.5" />
+                        Source
+                      </Link>
+                      <Link
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        <ArrowUpRight className="h-3.5 w-3.5" />
+                        Live Demo
+                      </Link>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3 pt-3 border-t">
-                    <Link
-                      href={project.github}
-                      className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      <Github className="h-3.5 w-3.5" />
-                      Source
-                    </Link>
-                    <Link
-                      href={project.live}
-                      className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      <ArrowUpRight className="h-3.5 w-3.5" />
-                      Live Demo
-                    </Link>
-                  </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </InViewStagger>
           </section>
+          </InView>
 
           {/* CONTACT SECTION */}
+          <InView variants={fadeUp}>
           <section id="contact" className="border rounded-lg p-6 scroll-mt-24">
             {/* Header */}
             <div className="flex items-center gap-2 mb-1">
@@ -593,27 +725,33 @@ export default function Home() {
             </p>
             <Separator className="mb-6" />
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-8">
+            <InViewStagger className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-8">
               {/* Left — Contact Info */}
-              <div className="space-y-4">
+              <motion.div variants={staggerItem} className="space-y-4">
                 {[
                   {
                     icon: <Mail className="h-4 w-4" />,
                     label: "Email",
-                    value: "hello@rizkirifani.dev",
-                    href: "mailto:hello@rizkirifani.dev",
+                    value: "rizkirifandi7@gmail.com",
+                    href: "rizkirifandi7@gmail.com",
                   },
                   {
                     icon: <Linkedin className="h-4 w-4" />,
                     label: "LinkedIn",
                     value: "linkedin.com/in/rizkirifani",
-                    href: "https://linkedin.com",
+                    href: "https://www.linkedin.com/in/rizkirifani/",
                   },
                   {
                     icon: <Github className="h-4 w-4" />,
                     label: "GitHub",
-                    value: "github.com/rizkirifani",
-                    href: "https://github.com",
+                    value: "github.com/rizkirifandi7",
+                    href: "https://github.com/rizkirifandi7",
+                  },
+                  {
+                    icon: <Instagram className="h-4 w-4" />,
+                    label: "Instagram",
+                    value: "instagram.com/rizki.rifandii/",
+                    href: "https://www.instagram.com/rizki.rifandii/",
                   },
                 ].map((item) => (
                   <Link
@@ -637,59 +775,17 @@ export default function Home() {
                     <ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                   </Link>
                 ))}
-
-                {/* Social row */}
-                <div className="pt-2">
-                  <p className="text-xs text-muted-foreground mb-3">
-                    Find me on
-                  </p>
-                  <div className="flex items-center gap-2">
-                    {[
-                      {
-                        icon: <Instagram className="h-4 w-4" />,
-                        href: "https://instagram.com",
-                        label: "Instagram",
-                      },
-                      {
-                        icon: <Github className="h-4 w-4" />,
-                        href: "https://github.com",
-                        label: "GitHub",
-                      },
-                      {
-                        icon: <Linkedin className="h-4 w-4" />,
-                        href: "https://linkedin.com",
-                        label: "LinkedIn",
-                      },
-                      {
-                        icon: <Facebook className="h-4 w-4" />,
-                        href: "https://facebook.com",
-                        label: "Facebook",
-                      },
-                    ].map((s) => (
-                      <Link
-                        key={s.label}
-                        href={s.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={s.label}
-                        className="p-2 border rounded-md hover:bg-muted/50 transition-colors"
-                      >
-                        {s.icon}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              </motion.div>
 
               {/* Right — Contact Form */}
-              <div className="border rounded-lg p-5 bg-muted/10">
+              <motion.div variants={staggerItem} className="border rounded-lg p-5 bg-muted/10">
                 <p className="text-sm font-semibold mb-4">Send a Message</p>
                 <form className="space-y-4">
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1.5">
                       <label
                         htmlFor="contact-name"
-                        className="text-xs font-medium text-muted-foreground"
+                        className="text-xs font-medium text-muted-foreground" 
                       >
                         Name
                       </label>
@@ -751,9 +847,10 @@ export default function Home() {
                     Send Message
                   </button>
                 </form>
-              </div>
-            </div>
+              </motion.div>
+            </InViewStagger>
           </section>
+          </InView>
         </div>
       </div>
     </div>
