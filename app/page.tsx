@@ -319,7 +319,7 @@ export default function Home() {
 
                     <div className="flex flex-wrap items-center gap-2 mt-4 md:mt-5">
                       <Link
-                        href="https://drive.google.com/file/d/1u84nbzhMlFCuX2akNiuwm2nAArgn33sn/view?usp=sharing"
+                        href="https://drive.google.com/file/d/1m04w7aOgQcvBrop41K_6o-KbTGtBwPVV/view?usp=sharing"
                         className="inline-flex items-center gap-2 rounded-md bg-foreground text-background px-4 py-2 text-sm font-semibold hover:opacity-80 transition-opacity"
                       >
                         <BriefcaseBusiness className="h-3.5 w-3.5" />
@@ -695,17 +695,6 @@ export default function Home() {
                     image: "/project-hr-internal.png",
                     github: "#",
                     live: "https://hr2.urbansolv.co.id",
-                    featured: true,
-                  },
-                  {
-                    index: "05",
-                    title: "Misoa",
-                    description:
-                      "Website company profile with blog feature and responsive design.",
-                    tech: ["Next.js", "TailwindCSS"],
-                    image: "/project-misoa.png",
-                    github: "#",
-                    live: "https://misoa.kulidigital.id/",
                     featured: true,
                   },
                   {
