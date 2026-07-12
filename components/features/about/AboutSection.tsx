@@ -12,7 +12,7 @@ export function AboutSection() {
         id="about"
         className="border rounded-lg overflow-hidden scroll-mt-20 md:scroll-mt-24"
       >
-        <div className="bg-gradient-to-br from-muted/60 via-muted/20 to-background px-4 md:px-6 pt-5 md:pt-6 pb-6 md:pb-7 border-b">
+        <div className="bg-gradient-to-br from-muted/60 via-muted/20 to-background px-4 md:px-6 pt-5 md:pt-6 pb-6 md:pb-7">
           <div className="flex items-center gap-2 mb-4">
             <User className="h-3.5 w-3.5 text-muted-foreground" />
             <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-[0.2em]">
