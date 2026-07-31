@@ -150,7 +150,7 @@ export function ProjectsSection() {
                   className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-background/60 to-transparent" />
                 {project.featured && (
                   <div className="absolute top-2.5 right-2.5 flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full border bg-background/80 backdrop-blur-sm">
                     <Sparkles className="h-2.5 w-2.5" />
