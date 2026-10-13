@@ -11,6 +11,12 @@ import {
 
 const EXPERIENCE_DATA = [
   {
+    role: "Junior IT Programmer",
+    company: "PT. Bank Negara Indonesia (Persero) Tbk.",
+    period: "Jul 2026 – Present",
+    desc: "",
+  },
+  {
     role: "Frontend Developer",
     company: "PT Multimedia Solusi Prima",
     period: "Dec 2025 – Jun 2026",
