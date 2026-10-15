@@ -18,7 +18,7 @@ export function ModeToggle() {
   if (!mounted) {
     return (
       <Button variant="outline" size="icon" disabled>
-        <span className="h-4 w-4" />
+        <span className="h-3 w-3" />
         <span className="sr-only">Toggle theme</span>
       </Button>
     );
@@ -27,13 +27,13 @@ export function ModeToggle() {
   return (
     <Button
       variant="outline"
-      size="icon"
+      className="size-7.5 rounded-sm"
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
     >
       {theme === "light" ? (
-        <Sun className="h-4 w-4" />
+        <Sun className="h-3 w-3" />
       ) : (
-        <Moon className="h-4 w-4" />
+        <Moon className="h-3 w-3" />
       )}
       <span className="sr-only">Toggle theme</span>
     </Button>
